@@ -10,6 +10,23 @@ import java.net.HttpURLConnection
 import java.net.MalformedURLException
 import java.net.URL
 
+class FeedEntry{
+    // Placed this class in MainActivity, since it's a small class and just contains info on the XML data.
+    var name: String = ""
+    var artist: String = ""
+    var releaseDate: String = ""
+    var imageURL: String = ""
+    override fun toString(): String {
+        return """
+            name = $name
+            artist = $artist
+            releaseDate = $releaseDate
+            imageURL = $imageURL
+            """.trimIndent()
+    }
+}
+
+
 class MainActivity : AppCompatActivity() {
     private val TAG = "MainActivity"
 

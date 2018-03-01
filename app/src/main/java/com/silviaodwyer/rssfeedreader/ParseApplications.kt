@@ -26,6 +26,7 @@ class ParseApplications {
             while (eventType != XmlPullParser.END_DOCUMENT){
                 val tagName = xpp.name.toLowerCase()
                 when (eventType){
+                    // When the parser reaches a Start Tag, it checks if the tag Name is 'entry'
                     XmlPullParser.START_TAG -> {
                         Log.d(TAG, "parse: Starting tag for " + tagName)
                         if (tagName == "entry"){
@@ -38,25 +39,31 @@ class ParseApplications {
                         Log.d(TAG, "Parse: Ending tag for " + tagName)
                         if(inEntry){
                             when(tagName){
+                                // if the tag is entry, this means that it has reached the end of the entry info. and can add all the details to currentRecord.
                                 "entry" -> {
                                     applications.add(currentRecord)
                                     inEntry = false
                                     currentRecord = FeedEntry() // create a new object
                                 }
-                                name -> currentRecord.name = textValue
+                                "name" -> currentRecord.name = textValue
                                 "artist" -> currentRecord.artist = textValue
-                                "releaseDate" - > currentRecord.releaseDate = textValue
-                                        "summary" -> currentRecord.summary = textValue
-                                "image" - > currentRecord.imageURL = textValue
+                                "releasedate" -> currentRecord.releaseDate = textValue
+                                "summary" -> currentRecord.summary = textValue
+                                "image" -> currentRecord.imageURL = textValue
                             }
                         }
                     }
                 }
+                eventType = xpp.next()
 
 
             }
 
-            eventType = xpp.next()
+            for (app in applications){
+                Log.d(TAG, "*************")
+                Log.d(TAG, app.toString())
+            }
+
         }
         catch (e: Exception){
             e.printStackTrace()

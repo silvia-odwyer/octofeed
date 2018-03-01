@@ -1,5 +1,6 @@
 package com.silviaodwyer.rssfeedreader
 
+import android.util.Log
 import org.xmlpull.v1.XmlPullParser
 
 /**
@@ -23,8 +24,39 @@ class ParseApplications {
             var eventType = xpp.eventType
             var currentRecord = FeedEntry()
             while (eventType != XmlPullParser.END_DOCUMENT){
+                val tagName = xpp.name.toLowerCase()
+                when (eventType){
+                    XmlPullParser.START_TAG -> {
+                        Log.d(TAG, "parse: Starting tag for " + tagName)
+                        if (tagName == "entry"){
+                            inEntry = true
+                        }
+                    }
+
+                    XmlPullParser.TEXT -> textValue = xpp.text
+                    XmlPullParser.END_TAG -> {
+                        Log.d(TAG, "Parse: Ending tag for " + tagName)
+                        if(inEntry){
+                            when(tagName){
+                                "entry" -> {
+                                    applications.add(currentRecord)
+                                    inEntry = false
+                                    currentRecord = FeedEntry() // create a new object
+                                }
+                                name -> currentRecord.name = textValue
+                                "artist" -> currentRecord.artist = textValue
+                                "releaseDate" - > currentRecord.releaseDate = textValue
+                                        "summary" -> currentRecord.summary = textValue
+                                "image" - > currentRecord.imageURL = textValue
+                            }
+                        }
+                    }
+                }
+
 
             }
+
+            eventType = xpp.next()
         }
         catch (e: Exception){
             e.printStackTrace()

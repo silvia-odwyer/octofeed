@@ -11,6 +11,12 @@ import android.widget.TextView
 /**
  * Created by silvi on 02/03/2018.
  */
+
+class ViewHolder(v: View){
+    val tvName: TextView = v.findViewById(R.id.tvName)
+    val tvArtist: TextView = v.findViewById(R.id.tvArtist)
+    val tvSummary: TextView = v.findViewById(R.id.tvSummary)
+}
 class FeedAdapter(context: Context, private val resource: Int, private val applications: List<FeedEntry>): ArrayAdapter<FeedEntry>(context, resource) {
     private val TAG = "FeedAdapter"
     private val inflater = LayoutInflater.from(context)

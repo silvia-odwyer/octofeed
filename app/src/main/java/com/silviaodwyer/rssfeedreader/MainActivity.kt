@@ -1,14 +1,19 @@
 package com.silviaodwyer.rssfeedreader
+import android.content.Context
 import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.widget.ArrayAdapter
+import android.widget.ListView
+import kotlinx.android.synthetic.main.activity_main.*
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.MalformedURLException
 import java.net.URL
+import kotlin.properties.Delegates
 
 class FeedEntry{
     // Placed this class in MainActivity, since it's a small class and just contains info on the XML data.
@@ -29,26 +34,44 @@ class FeedEntry{
 
 class MainActivity : AppCompatActivity() {
     private val TAG = "MainActivity"
+    private val downloadData by lazy {DownloadData(this, xmlListView)} // downloadData val is initialized to private, since the object is private
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         Log.d(TAG, "onCreate called")
-        val downloadData = DownloadData()
         downloadData.execute("http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/topfreeapplications/limit=10/xml")
         Log.d(TAG, "onCreate: done")
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        downloadData.cancel(true)
+    }
+
     companion object {
-        private class DownloadData : AsyncTask<String, Void, String>() {
+        // Created a companion object out of an inner class to avoid memory leaks
+        private class DownloadData (context: Context, listView: ListView): AsyncTask<String, Void, String>() {
             private val TAG = "DownloadData"
+            var propContext : Context by Delegates.notNull()
+            var propListView : ListView by Delegates.notNull()
+
+            init {
+                propContext = context
+                propListView = listView
+
+            }
 
             override fun onPostExecute(result: String) {
                 super.onPostExecute(result)
                 //Log.d(TAG, "onPostExecute: parameter is $result")
                 val parseApplications = ParseApplications()
                 parseApplications.parse(result)
+                // An adapter needs the context of the app, the textView, and the listView individual items
+                val arrayAdapter = ArrayAdapter<FeedEntry>(propContext, R.layout.list_item, parseApplications.applications)
+                propListView.adapter = arrayAdapter // Links the arrayAdapter instance to the adapter to the propListView's own adapter
+
             }
 
             override fun doInBackground(vararg url: String?): String {

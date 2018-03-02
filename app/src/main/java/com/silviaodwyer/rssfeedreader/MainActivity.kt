@@ -21,11 +21,13 @@ class FeedEntry{
     var artist: String = ""
     var releaseDate: String = ""
     var imageURL: String = ""
+    var summary: String = ""
     override fun toString(): String {
         return """
             name = $name
             artist = $artist
             releaseDate = $releaseDate
+            summary = $summary
             imageURL = $imageURL
             """.trimIndent()
     }
@@ -69,9 +71,10 @@ class MainActivity : AppCompatActivity() {
                 val parseApplications = ParseApplications()
                 parseApplications.parse(result)
                 // An adapter needs the context of the app, the textView, and the listView individual items
-                val arrayAdapter = ArrayAdapter<FeedEntry>(propContext, R.layout.list_item, parseApplications.applications)
-                propListView.adapter = arrayAdapter // Links the arrayAdapter instance to the adapter to the propListView's own adapter
-
+                //val arrayAdapter = ArrayAdapter<FeedEntry>(propContext, R.layout.list_item, parseApplications.applications)
+                //propListView.adapter = arrayAdapter // Links the arrayAdapter instance to the adapter to the propListView's own adapter
+                val feedAdapter = FeedAdapter(propContext, R.layout.list_record, parseApplications.applications)
+                propListView.adapter = feedAdapter
             }
 
             override fun doInBackground(vararg url: String?): String {

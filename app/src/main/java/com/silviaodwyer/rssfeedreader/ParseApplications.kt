@@ -49,7 +49,7 @@ class ParseApplications {
                                 "name" -> currentRecord.name = textValue
                                 "artist" -> currentRecord.artist = textValue
                                 "releasedate" -> currentRecord.releaseDate = textValue
-                                //"summary" -> currentRecord.summary = textValue
+                                "summary" -> currentRecord.summary = textValue
                                 "image" -> currentRecord.imageURL = textValue
                             }
                         }

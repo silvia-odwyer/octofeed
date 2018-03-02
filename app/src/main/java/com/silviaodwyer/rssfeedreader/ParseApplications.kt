@@ -2,6 +2,7 @@ package com.silviaodwyer.rssfeedreader
 
 import android.util.Log
 import org.xmlpull.v1.XmlPullParser
+import org.xmlpull.v1.XmlPullParserFactory
 
 /**
  * Created by silvi on 01/03/2018.
@@ -17,14 +18,14 @@ class ParseApplications {
         var textValue = ""
 
         try{
-            val factory = XsmlPullParserFactory.newInstance()
+            val factory = XmlPullParserFactory.newInstance()
             factory.isNamespaceAware = true
             val xpp = factory.newPullParser()
             xpp.setInput(xmlData.reader())  // String readers create streams which can read strings
             var eventType = xpp.eventType
             var currentRecord = FeedEntry()
             while (eventType != XmlPullParser.END_DOCUMENT){
-                val tagName = xpp.name.toLowerCase()
+                val tagName = xpp.name?.toLowerCase()
                 when (eventType){
                     // When the parser reaches a Start Tag, it checks if the tag Name is 'entry'
                     XmlPullParser.START_TAG -> {
@@ -48,7 +49,7 @@ class ParseApplications {
                                 "name" -> currentRecord.name = textValue
                                 "artist" -> currentRecord.artist = textValue
                                 "releasedate" -> currentRecord.releaseDate = textValue
-                                "summary" -> currentRecord.summary = textValue
+                                //"summary" -> currentRecord.summary = textValue
                                 "image" -> currentRecord.imageURL = textValue
                             }
                         }
@@ -71,7 +72,6 @@ class ParseApplications {
 
         }
         return false
-
 
 
 

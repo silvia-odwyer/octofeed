@@ -46,11 +46,13 @@ class ParseApplications {
                                     inEntry = false
                                     currentRecord = FeedEntry() // create a new object
                                 }
-                                "name" -> currentRecord.name = textValue
-                                "artist" -> currentRecord.artist = textValue
-                                "releasedate" -> currentRecord.releaseDate = textValue
-                                "summary" -> currentRecord.summary = textValue
-                                "image" -> currentRecord.imageURL = textValue
+                                "title" -> currentRecord.title = textValue
+                                "published" -> currentRecord.published = textValue
+//                                "name" -> currentRecord.name = textValue
+//                                "artist" -> currentRecord.artist = textValue
+//                                "releasedate" -> currentRecord.releaseDate = textValue
+//                                "summary" -> currentRecord.summary = textValue
+//                                "image" -> currentRecord.imageURL = textValue
                             }
                         }
                     }

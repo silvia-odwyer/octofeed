@@ -45,8 +45,8 @@ class FeedAdapter(context: Context, private val resource: Int, private val appli
 
         val currentApp = applications[position]
 
-        tvName.text = currentApp.name
-        tvArtist.text = currentApp.artist
+        tvName.text = currentApp.published
+        tvArtist.text = currentApp.title
         tvSummary.text = currentApp.summary
 
         return view

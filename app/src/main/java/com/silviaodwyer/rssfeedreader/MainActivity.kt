@@ -4,14 +4,11 @@ import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import android.widget.ArrayAdapter
+import android.view.View
+import android.widget.Button
+import android.widget.EditText
 import android.widget.ListView
 import kotlinx.android.synthetic.main.activity_main.*
-import java.io.BufferedReader
-import java.io.IOException
-import java.io.InputStreamReader
-import java.net.HttpURLConnection
-import java.net.MalformedURLException
 import java.net.URL
 import kotlin.properties.Delegates
 
@@ -22,29 +19,61 @@ class FeedEntry{
     var releaseDate: String = ""
     var imageURL: String = ""
     var summary: String = ""
+    var title: String = ""
+    var published: String = ""
     override fun toString(): String {
         return """
-            name = $name
-            artist = $artist
-            releaseDate = $releaseDate
-            summary = $summary
-            imageURL = $imageURL
+//            name = $name
+//            artist = $artist
+//            releaseDate = $releaseDate
+//            summary = $summary
+//            imageURL = $imageURL
+            title = $title
+            published = $published
             """.trimIndent()
     }
 }
 
-
 class MainActivity : AppCompatActivity() {
     private val TAG = "MainActivity"
-    private val downloadData by lazy {DownloadData(this, xmlListView)} // downloadData val is initialized to private, since the object is private
+    private var username: EditText? = null
+    private var submitButton: Button? = null
+    private val downloadData by lazy {DownloadData(     this, xmlListView)} // downloadData val is initialized to private, since the object is private
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        username = findViewById(R.id.username)
+        submitButton = findViewById(R.id.submitButton)
 
         Log.d(TAG, "onCreate called")
-        downloadData.execute("http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/topfreeapplications/limit=10/xml")
+
         Log.d(TAG, "onCreate: done")
+
+        submitButton?.setOnClickListener(object: View.OnClickListener{
+
+            override fun onClick(p0: View?) {
+                var username = username?.text.toString()
+                var stringURL = "https://github.com/[$username].atom"
+
+                stringURL = when {
+                    stringURL == "" -> "http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/topfreeapplications/limit=10/xml"
+                    else -> stringURL
+                }
+                downloadData.execute(stringURL)
+            }
+        })
+
+        username?.setOnClickListener(object: View.OnClickListener{
+
+            override fun onClick(p0: View?){
+
+                username?.setText("")
+            }
+        }
+
+        )
     }
 
     override fun onDestroy() {
@@ -56,6 +85,7 @@ class MainActivity : AppCompatActivity() {
         // Created a companion object out of an inner class to avoid memory leaks
         private class DownloadData (context: Context, listView: ListView): AsyncTask<String, Void, String>() {
             private val TAG = "DownloadData"
+
             var propContext : Context by Delegates.notNull()
             var propListView : ListView by Delegates.notNull()
 
@@ -85,6 +115,8 @@ class MainActivity : AppCompatActivity() {
                 }
                 return rssFeed
             }
+
+
 
             private fun downloadXML(urlPath: String?): String {
                 // A very Kotlin like way of writing the below 30 lines of code!

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ListView
@@ -51,30 +52,33 @@ class MainActivity : AppCompatActivity() {
 
         Log.d(TAG, "onCreate: done")
 
-        submitButton?.setOnClickListener(object: View.OnClickListener{
+
+
+        username?.setOnClickListener(object : View.OnClickListener {
+
+            override fun onClick(p0: View?) {
+
+                username?.setText("")
+            }
+        })
+
+        submitButton?.setOnClickListener(object : View.OnClickListener {
 
             override fun onClick(p0: View?) {
                 var username = username?.text.toString()
-                var stringURL = "https://github.com/[$username].atom"
+                var stringURL = "https://github.com/${username}.atom"
 
                 stringURL = when {
                     stringURL == "" -> "http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/topfreeapplications/limit=10/xml"
                     else -> stringURL
                 }
                 downloadData.execute(stringURL)
+
+
             }
         })
-
-        username?.setOnClickListener(object: View.OnClickListener{
-
-            override fun onClick(p0: View?){
-
-                username?.setText("")
-            }
-        }
-
-        )
     }
+
 
     override fun onDestroy() {
         super.onDestroy()
@@ -115,8 +119,6 @@ class MainActivity : AppCompatActivity() {
                 }
                 return rssFeed
             }
-
-
 
             private fun downloadXML(urlPath: String?): String {
                 // A very Kotlin like way of writing the below 30 lines of code!

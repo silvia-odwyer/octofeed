@@ -13,8 +13,10 @@ import android.widget.TextView
  */
 
 class ViewHolder(v: View){
-    val tvName: TextView = v.findViewById(R.id.publishedDate)
-    val tvArtist: TextView = v.findViewById(R.id.title)
+    val publishedDate: TextView = v.findViewById(R.id.publishedDate)
+    val titleText: TextView = v.findViewById(R.id.title)
+    // There exists no "summary" tag in the Atom GitHub feeds I've seen,
+    // but I've left the lines including it commented out.
     val tvSummary: TextView = v.findViewById(R.id.tvSummary)
 }
 class FeedAdapter(context: Context, private val resource: Int, private val applications: List<FeedEntry>): ArrayAdapter<FeedEntry>(context, resource) {
@@ -39,14 +41,14 @@ class FeedAdapter(context: Context, private val resource: Int, private val appli
             Log.d(TAG, "getView provided a convertView")
             view = convertView
         }
-        val tvName: TextView = view.findViewById(R.id.publishedDate)
-        val tvArtist: TextView = view.findViewById(R.id.title)
+        val publishedDate: TextView = view.findViewById(R.id.publishedDate)
+        val titleText: TextView = view.findViewById(R.id.title)
         val tvSummary: TextView = view.findViewById(R.id.tvSummary)
 
         val currentApp = applications[position]
 
-        tvName.text = currentApp.published
-        tvArtist.text = currentApp.title
+        publishedDate.text = currentApp.published
+        titleText.text = currentApp.title
         tvSummary.text = currentApp.summary
 
         return view

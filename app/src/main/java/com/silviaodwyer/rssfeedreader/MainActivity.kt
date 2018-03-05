@@ -24,7 +24,7 @@ class FeedEntry{
     var published: String = ""
     override fun toString(): String {
         return """
-//            name = $name
+//            name = $name  // A selection of tags found in XML RSS feeds, I may use them in future projects, so I've left them here.
 //            artist = $artist
 //            releaseDate = $releaseDate
 //            summary = $summary

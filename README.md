@@ -22,8 +22,11 @@ Then, the custom adapter will help communication between the ListView in the act
 and the XML parser, so that the correct text can be inserted into each item in the ListView.
 
 ## Not Working?
-The app is working pretty smoothly for now, but if you find yourself running into any bugs, 
-just leave a comment or open a pull request.
+Make sure you do the following:
+- After typing in your GitHub username, press the 'Get Feed' button *only once* and once only. 
+The background thread will re-run or create a new thread if you press it twice, resulting in the app crashing.
+- Wait a few seconds for the XML scraper to download all the XML and parse it accordingly. 
+If you find yourself running into any bugs, just leave a comment or open a pull request.
 - By the way, check the "Current Bugs That Need To Be Fixed" section below.
 
 ## Future Development Plans

@@ -17,7 +17,7 @@ class ViewHolder(v: View){
     val titleText: TextView = v.findViewById(R.id.title)
     // There exists no "summary" tag in the Atom GitHub feeds I've seen,
     // but I've left the lines including it commented out.
-    val tvSummary: TextView = v.findViewById(R.id.tvSummary)
+    val tvSummary: TextView = v.findViewById(R.id.tvSummary) // Summary doesn't exist, but if I find another tag to replace it, I'll place it instead of this variable.
 }
 class FeedAdapter(context: Context, private val resource: Int, private val applications: List<FeedEntry>): ArrayAdapter<FeedEntry>(context, resource) {
     private val TAG = "FeedAdapter"

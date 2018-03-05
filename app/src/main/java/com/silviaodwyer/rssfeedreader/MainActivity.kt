@@ -69,8 +69,14 @@ class MainActivity : AppCompatActivity() {
                 var stringURL = "https://github.com/${username}.atom"
 
                 stringURL = when {
-                    stringURL == "" -> "http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/topfreeapplications/limit=10/xml"
+                    stringURL == "" -> "https://github.com/silvia-odwyer.atom" // If they didn't type a username, they can look at my GitHub feed instead
                     else -> stringURL
+                }
+                // Check if no view has focus:
+                val view: View = getCurrentFocus()
+                if (view != null) {
+                    val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    inputMethodManager.hideSoftInputFromWindow(view!!.getWindowToken(), 0)
                 }
                 downloadData.execute(stringURL)
 
@@ -78,7 +84,6 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
-
 
     override fun onDestroy() {
         super.onDestroy()

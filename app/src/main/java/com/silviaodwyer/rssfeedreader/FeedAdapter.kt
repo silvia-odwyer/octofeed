@@ -13,8 +13,8 @@ import android.widget.TextView
  */
 
 class ViewHolder(v: View){
-    val tvName: TextView = v.findViewById(R.id.tvName)
-    val tvArtist: TextView = v.findViewById(R.id.tvArtist)
+    val tvName: TextView = v.findViewById(R.id.publishedDate)
+    val tvArtist: TextView = v.findViewById(R.id.title)
     val tvSummary: TextView = v.findViewById(R.id.tvSummary)
 }
 class FeedAdapter(context: Context, private val resource: Int, private val applications: List<FeedEntry>): ArrayAdapter<FeedEntry>(context, resource) {
@@ -39,8 +39,8 @@ class FeedAdapter(context: Context, private val resource: Int, private val appli
             Log.d(TAG, "getView provided a convertView")
             view = convertView
         }
-        val tvName: TextView = view.findViewById(R.id.tvName)
-        val tvArtist: TextView = view.findViewById(R.id.tvArtist)
+        val tvName: TextView = view.findViewById(R.id.publishedDate)
+        val tvArtist: TextView = view.findViewById(R.id.title)
         val tvSummary: TextView = view.findViewById(R.id.tvSummary)
 
         val currentApp = applications[position]
